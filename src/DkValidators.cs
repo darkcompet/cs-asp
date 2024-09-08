@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 /// Src: https://gist.github.com/kinetiq/faed1e3b2da4cca922896d1f7cdcc79b
 /// Ref: https://learn.microsoft.com/en-us/dotnet/api/system.componentmodel.dataannotations.validator.tryvalidateobject?view=net-6.0#System_ComponentModel_DataAnnotations_Validator_TryValidateObject_System_Object_System_ComponentModel_DataAnnotations_ValidationContext_System_Collections_Generic_ICollection_System_ComponentModel_DataAnnotations_ValidationResult__System_Boolean_
-public class DkValidator {
+public class DkValidators {
 	/// <summary>
 	/// Validate the model and return a response, which includes any validation messages and an IsValid bit.
 	/// </summary>
@@ -22,6 +22,19 @@ public class DkValidator {
 	/// </summary>
 	public static bool IsValid(object model) {
 		return Validate(model).valid;
+	}
+
+	/// <summary>
+	/// Check given value is defined in the enum (value's type).
+	/// </summary>
+	/// <param name="value"></param>
+	/// <returns></returns>
+	public static bool IsValidEnumValue(object? value) {
+		if (value is null) {
+			return false;
+		}
+		var type = value.GetType();
+		return type.IsEnum && Enum.IsDefined(type, value);
 	}
 }
 
