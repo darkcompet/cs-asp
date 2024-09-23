@@ -2,25 +2,20 @@
 
 This provides core for ASP.NET Core.
 
-- Features
 
-	```bash
-	- Core.
-	```
+## Dependencies
 
-- Dependencies
-
-	```bash
+```bash
 	# Tool.Compet.Core
 	https://github.com/darkcompet/csharp-core
-	```
+```
 
 
-## How to install
+## Installation
 
 - Just include it into project by add as git-submodule.
 	
-	```bash
+```bash
 	# Tool.Compet.Core
-	git submodule add https://github.com/darkcompet/csharp-asp-core.git
-	```
+	git submodule add https://github.com/darkcompet/cs-asp.git
+```
