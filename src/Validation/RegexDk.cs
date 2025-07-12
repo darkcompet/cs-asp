@@ -10,7 +10,7 @@ using System.Text.RegularExpressions;
 /// The regex will be created with compiled option then cache, so it is faster for high-request app.
 /// </summary>
 [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = false)]
-public sealed class RegexDk(string pattern, RegexOptions options = RegexOptions.CultureInvariant) : ValidationAttribute {
+public sealed class RegexDk(string pattern, RegexOptions options = RegexOptions.Compiled | RegexOptions.CultureInvariant) : ValidationAttribute {
 	/// <summary>
 	/// For GET action, it is lock-free, consider same speed as normal dictionary.
 	/// For ADD action, it is expensive than normal dictionary since lock fee.
