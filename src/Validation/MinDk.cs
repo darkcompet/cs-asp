@@ -1,8 +1,8 @@
-namespace Tool.Compet.Core;
-
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
+
+namespace Tool.Compet.Core;
 
 /// <summary>
 /// Require min value.

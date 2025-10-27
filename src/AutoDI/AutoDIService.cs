@@ -1,8 +1,6 @@
-﻿namespace Tool.Compet.AutoDI;
+﻿using System.Reflection;
 
-using System.Linq;
-using System.Reflection;
-using Microsoft.Extensions.DependencyInjection;
+namespace Tool.Compet.AutoDI;
 
 /// <summary>
 /// Dependecy Injection.
@@ -19,7 +17,7 @@ public static class AutoDIService {
 	/// transient.
 	/// </summary>
 	/// <param name="services"></param>
-	public static void AutoRegisterDependencies(this IServiceCollection services) {
+	public static void RegisterDependenciesDk(this IServiceCollection services) {
 		var assemblies = GetAssemblies();
 		var registeredServices = FindRegisteredServicesByAttribute(assemblies);
 

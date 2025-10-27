@@ -1,6 +1,6 @@
-namespace Tool.Compet.Core;
-
 using System.ComponentModel.DataAnnotations;
+
+namespace Tool.Compet.Core;
 
 /// <summary>
 /// Require the GUID value is not null and not empty.

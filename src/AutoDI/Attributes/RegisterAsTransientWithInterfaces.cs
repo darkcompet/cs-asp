@@ -1,7 +1,5 @@
 ﻿namespace Tool.Compet.AutoDI;
 
-using Microsoft.Extensions.DependencyInjection;
-
 /// <summary>
 /// Register the class as scoped with interfaces.
 /// </summary>

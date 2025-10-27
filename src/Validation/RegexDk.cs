@@ -1,9 +1,8 @@
-namespace Tool.Compet.Core;
-
-using System;
 using System.Collections.Concurrent;
 using System.ComponentModel.DataAnnotations;
 using System.Text.RegularExpressions;
+
+namespace Tool.Compet.Core;
 
 /// <summary>
 /// It validates value must match with given regex.

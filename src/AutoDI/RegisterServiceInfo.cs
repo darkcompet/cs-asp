@@ -1,9 +1,5 @@
 ﻿namespace Tool.Compet.AutoDI;
 
-using System;
-using System.Collections.Generic;
-using Microsoft.Extensions.DependencyInjection;
-
 /// <summary>
 /// Object used to store the class name, interface name and service
 /// lifetime of discovered classes.

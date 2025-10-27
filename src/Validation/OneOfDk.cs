@@ -1,6 +1,6 @@
-namespace Tool.Compet.Core;
-
 using System.ComponentModel.DataAnnotations;
+
+namespace Tool.Compet.Core;
 
 /// <summary>
 /// Validate the value is element in given values.

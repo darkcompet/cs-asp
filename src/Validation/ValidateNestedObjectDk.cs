@@ -1,6 +1,6 @@
-namespace Tool.Compet.Core;
-
 using System.ComponentModel.DataAnnotations;
+
+namespace Tool.Compet.Core;
 
 /// <summary>
 /// Use this when we validate manually via `Validator.TryValidateObject()`.

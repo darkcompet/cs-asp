@@ -1,6 +1,6 @@
-namespace Tool.Compet.Core;
-
 using System.ComponentModel.DataAnnotations;
+
+namespace Tool.Compet.Core;
 
 /// <summary>
 /// Require the value is one of the defined enum values.

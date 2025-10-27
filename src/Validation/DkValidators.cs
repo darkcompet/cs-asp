@@ -1,6 +1,6 @@
-namespace Tool.Compet.Core;
-
 using System.ComponentModel.DataAnnotations;
+
+namespace Tool.Compet.Core;
 
 /// <summary>
 /// Src: https://gist.github.com/kinetiq/faed1e3b2da4cca922896d1f7cdcc79b
