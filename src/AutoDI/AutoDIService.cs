@@ -3,7 +3,7 @@
 namespace Tool.Compet.AutoDI;
 
 /// <summary>
-/// Dependecy Injection.
+/// Dependency Injection.
 /// - Singleton: IoC container will create and share a single instance of a service throughout the application's lifetime.
 /// - Transient: The IoC container will create a new instance of the specified service type every time you ask for it.
 /// - Scoped: IoC container will create an instance of the specified service type once per request and will be shared in a single request.
@@ -17,9 +17,9 @@ public static class AutoDIService {
 	/// transient.
 	/// </summary>
 	/// <param name="services"></param>
-	public static void RegisterDependenciesDk(this IServiceCollection services) {
+	public static void AddAutoDependencyRejectionDk(this IServiceCollection services) {
 		var assemblies = GetAssemblies();
-		var registeredServices = FindRegisteredServicesByAttribute(assemblies);
+		var registeredServices = FindMyServicesByAttribute(assemblies);
 
 		foreach (var serviceInfo in registeredServices) {
 			// Register without interface
@@ -43,21 +43,26 @@ public static class AutoDIService {
 		}
 	}
 
+	/// <summary>
 	/// Get .dll assembly file that be used to reflect.
-	private static List<Assembly> GetAssemblies() {
-		var assemblies = new List<Assembly>();
-		foreach (var assemblyFilePath in Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory, "*.dll")) {
-			assemblies.Add(Assembly.Load(AssemblyName.GetAssemblyName(assemblyFilePath)));
-		}
-		return assemblies;
+	/// </summary>
+	/// <returns></returns>
+	private static Assembly[] GetAssemblies() {
+		return Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory, "*.dll")
+			.Select(assemblyFilePath => Assembly.Load(AssemblyName.GetAssemblyName(assemblyFilePath)))
+			.ToArray();
 	}
 
+	/// <summary>
 	/// From assembly, find info of services that be registered by our attributes.
-	private static List<RegisterServiceInfo> FindRegisteredServicesByAttribute(IEnumerable<Assembly> assembly) {
-		var serviceTypes = assembly
+	/// </summary>
+	/// <param name="assemblies"></param>
+	/// <returns></returns>
+	private static List<RegisterServiceInfo> FindMyServicesByAttribute(Assembly[] assemblies) {
+		var serviceTypes = assemblies
 			.SelectMany(x => x.GetExportedTypes())
-			.Where(FilterOurAutoDIService)
-		;
+			.Where(FilterOurAutoDIService);
+
 		// Map assemblies to services
 		var serviceInfos = new List<RegisterServiceInfo>();
 		foreach (var stype in serviceTypes) {
@@ -77,35 +82,55 @@ public static class AutoDIService {
 		return serviceInfos;
 	}
 
+	/// <summary>
 	/// We only target to class that be annotated with our <see cref="AutoDIRegistrationAttribute">.
+	/// </summary>
+	/// <param name="type"></param>
+	/// <returns></returns>
 	private static bool FilterOurAutoDIService(Type type) {
 		return
-			!type.IsAbstract && !type.IsGenericType && !type.IsNested &&
+			!type.IsAbstract &&
+			!type.IsGenericType &&
+			!type.IsNested &&
 			type.GetCustomAttribute(AutoDIRegistrationAttribute.AttributeType, true) != null
-		;
+			;
 	}
 
+	/// <summary>
 	/// Check whether the attribute is our attribute or not.
+	/// </summary>
+	/// <param name="attributeFullName"></param>
+	/// <returns></returns>
 	private static bool IsAutoRegisterAttribute(string? attributeFullName) {
-		return attributeFullName != null && (
-			attributeFullName == RegisterAsScoped.FullName ||
-			attributeFullName == RegisterAsSingleton.FullName ||
-			attributeFullName == RegisterAsTransient.FullName ||
-			attributeFullName == RegisterAsScopedWithInterfaces.FullName ||
-			attributeFullName == RegisterAsSingletonWithInterfaces.FullName ||
-			attributeFullName == RegisterAsTransientWithInterfaces.FullName
-		);
+		return attributeFullName != null &&
+		       (
+			       attributeFullName == RegisterAsScoped.FullName ||
+			       attributeFullName == RegisterAsSingleton.FullName ||
+			       attributeFullName == RegisterAsTransient.FullName ||
+			       attributeFullName == RegisterAsScopedWithInterfaces.FullName ||
+			       attributeFullName == RegisterAsSingletonWithInterfaces.FullName ||
+			       attributeFullName == RegisterAsTransientWithInterfaces.FullName
+		       );
 	}
 
-	/// Check whether the attribute does ignore register interface or not.
+	/// <summary>
+	/// Check whether the attribute is our attribute or not.
+	/// </summary>
+	/// <param name="attributeFullName"></param>
+	/// <returns></returns>
 	private static bool IsIgnoreInterfaceAttribute(string attributeFullName) {
 		return attributeFullName == RegisterAsScoped.FullName ||
-			attributeFullName == RegisterAsSingleton.FullName ||
-			attributeFullName == RegisterAsTransient.FullName
-		;
+		       attributeFullName == RegisterAsSingleton.FullName ||
+		       attributeFullName == RegisterAsTransient.FullName
+			;
 	}
 
+	/// <summary>
 	/// Calculate service lifetime from attribute fullname.
+	/// </summary>
+	/// <param name="attributeFullName"></param>
+	/// <returns></returns>
+	/// <exception cref="InvalidDataException"></exception>
 	private static ServiceLifetime CalcServiceLifetime(string attributeFullName) {
 		if (attributeFullName == RegisterAsScoped.FullName || attributeFullName == RegisterAsScopedWithInterfaces.FullName) {
 			return ServiceLifetime.Scoped;
