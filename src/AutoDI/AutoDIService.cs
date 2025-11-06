@@ -17,7 +17,7 @@ public static class AutoDIService {
 	/// transient.
 	/// </summary>
 	/// <param name="services"></param>
-	public static void AddAutoDependencyRejectionDk(this IServiceCollection services) {
+	public static void AddAutoDependencyInjectionDk(this IServiceCollection services) {
 		var assemblies = GetAssemblies();
 		var registeredServices = FindMyServicesByAttribute(assemblies);
 
